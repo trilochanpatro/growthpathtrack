@@ -1,0 +1,4 @@
+project_id = "penfwjsqleofkofnoocb"
+
+[functions.goal-coach]
+verify_jwt = false
