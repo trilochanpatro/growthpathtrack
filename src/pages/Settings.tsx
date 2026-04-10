@@ -23,9 +23,9 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { exportGoalsToCSV, exportHabitsToCSV, exportCompletionsToCSV, exportToPDF } from "@/lib/exportData";
-import { 
-  isNotificationSupported, 
-  getNotificationPermission, 
+import {
+  isNotificationSupported,
+  getNotificationPermission,
   requestNotificationPermission,
   getNotificationPreferences,
   saveNotificationPreferences,
@@ -59,7 +59,7 @@ export default function Settings() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { theme, colorTheme, setThemePreference, setColorTheme } = useThemePreference();
-  
+
   const [displayName, setDisplayName] = useState("");
   const [interests, setInterests] = useState<string[]>([]);
   const [customInterest, setCustomInterest] = useState("");
@@ -90,7 +90,7 @@ export default function Settings() {
       fetchProfile();
       fetchDataForExport();
     }
-    
+
     // Load push notification preferences
     if (isNotificationSupported()) {
       setNotifPermission(getNotificationPermission());
@@ -108,9 +108,9 @@ export default function Settings() {
         .select("display_name, interests")
         .eq("user_id", user!.id)
         .single();
-      
+
       if (error) throw error;
-      
+
       if (data) {
         setDisplayName(data.display_name || "");
         setInterests(data.interests || []);
@@ -129,7 +129,7 @@ export default function Settings() {
         supabase.from("habits").select("*").eq("user_id", user!.id),
         supabase.from("habit_completions").select("*").eq("user_id", user!.id),
       ]);
-      
+
       if (goalsRes.data) setGoals(goalsRes.data);
       if (habitsRes.data) setHabits(habitsRes.data);
       if (completionsRes.data) setCompletions(completionsRes.data);
@@ -192,7 +192,7 @@ export default function Settings() {
       if (notifPermission !== "granted") {
         const granted = await requestNotificationPermission();
         setNotifPermission(getNotificationPermission());
-        
+
         if (!granted) {
           toast({
             title: "Permission denied",
@@ -202,7 +202,7 @@ export default function Settings() {
           return;
         }
       }
-      
+
       setPushNotifEnabled(true);
       saveNotificationPreferences({ enabled: true, reminderTime });
       toast({
@@ -346,12 +346,12 @@ export default function Settings() {
 
       // Sign out and redirect
       await supabase.auth.signOut();
-      
+
       toast({
         title: "Account deleted",
         description: "Your account and all data have been permanently removed.",
       });
-      
+
       navigate("/");
     } catch (error) {
       console.error("Error deleting account:", error);
@@ -534,33 +534,30 @@ export default function Settings() {
               <div className="grid grid-cols-3 gap-3">
                 <button
                   onClick={() => setThemePreference("light")}
-                  className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${
-                    theme === "light" 
-                      ? "border-primary bg-primary/10" 
+                  className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${theme === "light"
+                      ? "border-primary bg-primary/10"
                       : "border-border hover:border-primary/50"
-                  }`}
+                    }`}
                 >
                   <Sun className="w-6 h-6" />
                   <span className="text-sm font-medium">Light</span>
                 </button>
                 <button
                   onClick={() => setThemePreference("dark")}
-                  className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${
-                    theme === "dark" 
-                      ? "border-primary bg-primary/10" 
+                  className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${theme === "dark"
+                      ? "border-primary bg-primary/10"
                       : "border-border hover:border-primary/50"
-                  }`}
+                    }`}
                 >
                   <Moon className="w-6 h-6" />
                   <span className="text-sm font-medium">Dark</span>
                 </button>
                 <button
                   onClick={() => setThemePreference("system")}
-                  className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${
-                    theme === "system" 
-                      ? "border-primary bg-primary/10" 
+                  className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${theme === "system"
+                      ? "border-primary bg-primary/10"
                       : "border-border hover:border-primary/50"
-                  }`}
+                    }`}
                 >
                   <Monitor className="w-6 h-6" />
                   <span className="text-sm font-medium">System</span>
@@ -573,7 +570,7 @@ export default function Settings() {
               <Label className="text-sm font-medium mb-3 block">Color Theme</Label>
               <div className="grid grid-cols-5 gap-3">
                 {[
-                  { id: "teal", name: "Teal", color: "bg-[hsl(160,45%,50%)]" },
+                  { id: "teal", name: "Green", color: "bg-[hsl(145,65%,45%)]" },
                   { id: "orange", name: "Sunset", color: "bg-[hsl(24,85%,58%)]" },
                   { id: "purple", name: "Purple", color: "bg-[hsl(270,70%,60%)]" },
                   { id: "blue", name: "Ocean", color: "bg-[hsl(210,90%,55%)]" },
@@ -582,11 +579,10 @@ export default function Settings() {
                   <button
                     key={t.id}
                     onClick={() => setColorTheme(t.id as "teal" | "orange" | "purple" | "blue" | "rose")}
-                    className={`flex flex-col items-center gap-2 p-3 rounded-xl border-2 transition-all ${
-                      colorTheme === t.id 
-                        ? "border-primary bg-primary/10" 
+                    className={`flex flex-col items-center gap-2 p-3 rounded-xl border-2 transition-all ${colorTheme === t.id
+                        ? "border-primary bg-primary/10"
                         : "border-border hover:border-primary/50"
-                    }`}
+                      }`}
                   >
                     <div className={`w-8 h-8 rounded-full ${t.color}`} />
                     <span className="text-xs font-medium">{t.name}</span>
@@ -623,8 +619,8 @@ export default function Settings() {
                   <div>
                     <p className="font-medium text-foreground">Enable Daily Reminders</p>
                     <p className="text-sm text-muted-foreground">
-                      {notifPermission === "denied" 
-                        ? "Notifications blocked in browser settings" 
+                      {notifPermission === "denied"
+                        ? "Notifications blocked in browser settings"
                         : "Receive push notifications for your habits"}
                     </p>
                   </div>
@@ -778,7 +774,7 @@ export default function Settings() {
                   <p className="text-xs text-muted-foreground">{goals.length} goals</p>
                 </div>
               </Button>
-              
+
               <Button
                 variant="outline"
                 className="rounded-xl justify-start gap-3 h-auto py-4"
@@ -791,7 +787,7 @@ export default function Settings() {
                   <p className="text-xs text-muted-foreground">{habits.length} habits</p>
                 </div>
               </Button>
-              
+
               <Button
                 variant="outline"
                 className="rounded-xl justify-start gap-3 h-auto py-4"
@@ -804,7 +800,7 @@ export default function Settings() {
                   <p className="text-xs text-muted-foreground">{completions.length} check-ins</p>
                 </div>
               </Button>
-              
+
               <Button
                 variant="outline"
                 className="rounded-xl justify-start gap-3 h-auto py-4"
@@ -818,7 +814,7 @@ export default function Settings() {
                 </div>
               </Button>
             </div>
-            
+
             <p className="text-xs text-muted-foreground">
               Your data will be downloaded directly to your device.
             </p>

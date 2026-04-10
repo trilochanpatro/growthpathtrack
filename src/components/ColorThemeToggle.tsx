@@ -11,7 +11,7 @@ import { useThemePreference } from "@/hooks/useThemePreference";
 type ColorTheme = "teal" | "orange" | "purple" | "blue" | "rose";
 
 const COLOR_THEMES: { id: ColorTheme; name: string; color: string }[] = [
-  { id: "teal", name: "Matte Green", color: "bg-[hsl(158,50%,38%)]" },
+  { id: "teal", name: "Green", color: "bg-[hsl(145,65%,45%)]" },
   { id: "orange", name: "Sunset", color: "bg-[hsl(18,85%,52%)]" },
   { id: "purple", name: "Purple", color: "bg-[hsl(262,72%,55%)]" },
   { id: "blue", name: "Ocean", color: "bg-[hsl(210,85%,50%)]" },
